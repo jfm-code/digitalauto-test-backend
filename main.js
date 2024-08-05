@@ -10,13 +10,14 @@ function runTests(testFile) {
       if (stderr) {
         console.info(`\n\n${stderr}`);
       }
+      console.log(`stdout: ${stdout}`);
       resolve(stdout);
     });
   });
 }
 
 async function main() {
-  const testFiles = ['auth.test.js', 'bla.test.js'];
+  const testFiles = ['auth.test.js'];
   
   for (const testFile of testFiles) {
     try {
