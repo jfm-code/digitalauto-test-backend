@@ -40,12 +40,35 @@ async function forgot_password(email) {
     });
     try {
         const data = await response.json();
-        // console.log('Response status:', response.status);
-        // console.log('Response data:', data);
         return { status: response.status, data: data };
     } catch {
         return { status: response.status, data: null };
     }
 }
 
-module.exports = { login, forgot_password };
+async function register(email, password, name) {
+    const { fetch, agent } = await startProxy();
+    try {
+        const response = await fetch(infoConfig["register_url"], {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(
+                {
+                    email: email,
+                    password: password,
+                    name: name
+                }
+            ),
+            timeout: 5000,
+            agent: agent
+        });
+        const data = await response.json();
+        return { status: response.status, data: data };
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+module.exports = { login, forgot_password, register };

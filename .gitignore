@@ -3,3 +3,7 @@ logs/
 
 # Ignore node_modules
 node_modules/
+
+# Ignore temp files
+admin_token.txt
+user_id.txt
