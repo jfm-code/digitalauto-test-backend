@@ -21,14 +21,14 @@ function log(level, message) {
   }
 }
 
-function special_log(message) {
+function specialLog(message) {
   const logMessage = `${message}\n`;
   fs.appendFileSync(logFile, logMessage, 'utf8');
 }
 
 // Export log functions
 module.exports = {
-  start_end: (message) => special_log(message),
+  startEnd: (message) => specialLog(message),
   debug: (message) => log('DEBUG', message),
   info: (message) => log('INFO', message),
   warn: (message) => log('WARN', message),

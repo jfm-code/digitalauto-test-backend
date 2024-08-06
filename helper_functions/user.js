@@ -1,7 +1,7 @@
 const { startProxy } = require('../helper_functions/proxy');
 const infoConfig = require('./info_config');
 
-async function list_users(page_number) {
+async function listUsers(page_number) {
     const { fetch, agent } = await startProxy();
     try {
         const response = await fetch(`${infoConfig["list_user_url"]}${page_number}`, {
@@ -21,7 +21,7 @@ async function list_users(page_number) {
     };
 }
 
-async function get_user(id) {
+async function getUser(id) {
     const { fetch, agent } = await startProxy();
     try {
         const response = await fetch(`${infoConfig["user_url"]}${id}`, {
@@ -39,7 +39,7 @@ async function get_user(id) {
     };
 }
 
-async function create_user(email, password, name, token) {
+async function createUser(email, password, name, token) {
     const { fetch, agent } = await startProxy();
     try {
         const response = await fetch(infoConfig["user_url"], {
@@ -65,7 +65,7 @@ async function create_user(email, password, name, token) {
     };
 }
 
-async function update_user(new_password, token, id) {
+async function updateUser(new_password, token, id) {
     const { fetch, agent } = await startProxy();
     try {
         const response = await fetch(`${infoConfig["user_url"]}${id}`, {
@@ -85,7 +85,7 @@ async function update_user(new_password, token, id) {
     };
 }
 
-async function delete_user(token, id) {
+async function deleteUser(token, id) {
     const { fetch, agent } = await startProxy();
     const response = await fetch(`${infoConfig["user_url"]}${id}`, {
         method: 'DELETE',
@@ -104,7 +104,7 @@ async function delete_user(token, id) {
     }
 }
 
-async function self_promote(token) {
+async function selfPromote(token) {
     const { fetch, agent } = await startProxy();
     try {
         const response = await fetch(`${infoConfig["self_url"]}/promote`, {
@@ -123,7 +123,7 @@ async function self_promote(token) {
     };
 }
 
-async function get_self(token) {
+async function getSelf(token) {
     const { fetch, agent } = await startProxy();
     try {
         const response = await fetch(infoConfig["self_url"], {
@@ -142,7 +142,7 @@ async function get_self(token) {
     };
 }
 
-async function update_self(new_password, token) {
+async function updateSelf(new_password, token) {
     const { fetch, agent } = await startProxy();
     try {
         const response = await fetch(infoConfig["self_url"], {
@@ -162,4 +162,4 @@ async function update_self(new_password, token) {
     };
 }
 
-module.exports = { list_users, get_user, update_user, delete_user, self_promote, get_self, create_user, update_self }
+module.exports = { listUsers, getUser, updateUser, deleteUser, selfPromote, getSelf, createUser, updateSelf }

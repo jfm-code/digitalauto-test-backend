@@ -27,7 +27,7 @@ async function login(email, password) {
     }
 }
 
-async function forgot_password(email) {
+async function forgotPassword(email) {
     const { fetch, agent } = await startProxy();
     const response = await fetch(infoConfig["forgot_pwd_url"], {
         method: 'POST',
@@ -71,4 +71,4 @@ async function register(email, password, name) {
     }
 }
 
-module.exports = { login, forgot_password, register };
+module.exports = { login, forgotPassword, register };

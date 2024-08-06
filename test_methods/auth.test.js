@@ -1,16 +1,16 @@
 const logger = require('../helper_functions/logger');
-const { write_summary } = require('../helper_functions/logsummary');
-const { login, forgot_password, register } = require('../helper_functions/auth');
-const { store_admin_token, store_user_token } = require('../helper_functions/temp_storage');
+const { writeSummary } = require('../helper_functions/logsummary');
+const { login, forgotPassword, register } = require('../helper_functions/auth');
+const { setAdminToken, setUserToken } = require('../helper_functions/temp_storage');
 const infoConfig = require('../helper_functions/info_config');
 
 beforeAll(() => {
-  logger.start_end('Start testing backend-core/v2/auth methods');
+  logger.startEnd('Start testing backend-core/v2/auth methods');
 });
 
 afterAll(() => {
-  logger.start_end('Finish testing backend-core/v2/auth methods');
-  write_summary(logger)
+  logger.startEnd('Finish testing backend-core/v2/auth methods');
+  writeSummary(logger)
 });
 
 test('Test login API using correct user information', async () => {
@@ -29,7 +29,7 @@ test('Test login API using correct user information', async () => {
     expect(response.data.user.id).toBeDefined();
     expect(response.data.user.created_at).toBeDefined();
     expect(response.data.tokens.access.token).toBeDefined();
-    store_admin_token(response.data.tokens.access.token);
+    await setAdminToken(response.data.tokens.access.token);
     expect(response.data.tokens.access.expires).toBeDefined();
 
     logger.info('Success. Tested login API with correct user information.')
@@ -71,7 +71,7 @@ test('Test login API using empty user information', async () => {
 
 test('Test forgot password API using correct user email', async () => {
   try {
-    const response = await forgot_password("dev@gmail.com");
+    const response = await forgotPassword("dev@gmail.com");
 
     expect(response.status).toEqual(204);
     expect(response.data).toBeNull();
@@ -84,7 +84,7 @@ test('Test forgot password API using correct user email', async () => {
 
 test('Test forgot password API using wrong user email', async () => {
   try {
-    const response = await forgot_password("random@gmail.com");
+    const response = await forgotPassword("random@gmail.com");
 
     expect(response.status).toEqual(404);
     expect(response.data.message).toStrictEqual("No users found with this email");
@@ -150,7 +150,7 @@ test('Test register API using correct input', async () => {
     expect(response.status).toEqual(201);
     expect(response.data.user.email).toStrictEqual(infoConfig["register_user_info"]["email"]);
     expect(response.data.user.name).toStrictEqual(infoConfig["register_user_info"]["name"]);
-    await store_user_token(response.data.tokens.access.token);
+    await setUserToken(response.data.tokens.access.token);
 
     logger.info('Success. Tested register API using correct input.')
   } catch (error) {

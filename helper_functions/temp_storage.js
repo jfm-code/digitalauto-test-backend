@@ -5,7 +5,7 @@ const ADMIN_TOKEN_FILE = path.join(__dirname, '../temp_files/admin_token.txt');
 const USER_TOKEN_FILE = path.join(__dirname, '../temp_files/user_token.txt');
 const USER_ID_FILE = path.join(__dirname, '../temp_files/user_id.txt');
 
-async function store_admin_token(token) {
+async function setAdminToken(token) {
     try {
         await fs.writeFile(ADMIN_TOKEN_FILE, token);
         // console.log("Storing admin token: ", token);
@@ -14,7 +14,7 @@ async function store_admin_token(token) {
     }
 }
 
-async function get_admin_token() {
+async function getAdminToken() {
     try {
         const token = await fs.readFile(ADMIN_TOKEN_FILE, 'utf8');
         // console.log("Admin token is: ", token);
@@ -25,7 +25,7 @@ async function get_admin_token() {
     }
 }
 
-async function store_user_token(token) {
+async function setUserToken(token) {
     try {
         await fs.writeFile(USER_TOKEN_FILE, token);
         // console.log("Storing user token: ", token);
@@ -34,7 +34,7 @@ async function store_user_token(token) {
     }
 }
 
-async function get_user_token() {
+async function getUserToken() {
     try {
         const token = await fs.readFile(USER_TOKEN_FILE, 'utf8');
         // console.log("User token is: ", token);
@@ -45,7 +45,7 @@ async function get_user_token() {
     }
 }
 
-async function store_user_id(id) {
+async function setUserID(id) {
     try {
         await fs.writeFile(USER_ID_FILE, id);
         // console.log("Storing user ID: ", id);
@@ -54,7 +54,7 @@ async function store_user_id(id) {
     }
 }
 
-async function get_user_id() {
+async function getUserID() {
     try {
         const id = await fs.readFile(USER_ID_FILE, 'utf8');
         // console.log("User ID is: ", id);
@@ -66,7 +66,7 @@ async function get_user_id() {
 }
 
 module.exports = { 
-    store_admin_token, get_admin_token, 
-    store_user_token, get_user_token,
-    store_user_id, get_user_id 
+    setAdminToken, getAdminToken, 
+    setUserToken, getUserToken,
+    setUserID, getUserID 
 };

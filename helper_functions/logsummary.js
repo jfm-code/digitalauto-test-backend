@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function write_summary(logger) {
+function writeSummary(logger) {
     const logData = fs.readFileSync(logger.logFile, 'utf8');
     const failedTestCount = (logData.match(/Failure/g) || []).length;
     const totalTestCount = (logData.match(/(Failure|Success). Test/g) || []).length;
@@ -13,4 +13,4 @@ ${failedTestCount > 0 ? `List of failed test cases:` : ''}
 `;
     fs.appendFileSync(logger.logFile, summary);
 }
-module.exports = { write_summary };
+module.exports = { writeSummary };
