@@ -87,4 +87,75 @@ async function updateModel(id, token, name) {
     }
 }
 
-module.exports = { listModels, createModel, getModel, updateModel };
+async function deleteModel(id, token) {
+    const { fetch, agent } = await startProxy();
+    const response = await fetch(`${infoConfig["model_url"]}${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        timeout: 5000,
+        agent: agent
+    });
+    try {
+        const data = await response.json();
+        console.log('Response data:', data);
+        return { status: response.status, data: data };
+    } catch (error) {
+        console.log('Response status:', response.status);
+        return { status: response.status, data: null };
+    }
+}
+
+async function addContributor(model_id, contributor_id, token) {
+    const { fetch, agent } = await startProxy();
+    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(
+            {
+                userId: contributor_id,
+                role: 'model_contributor'
+            }
+        ),
+        timeout: 5000,
+        agent: agent
+    });
+    try {
+        const data = await response.json();
+        return { status: response.status, data: data };
+    } catch (error) {
+        return { status: response.status, data: null };
+    }
+}
+
+async function deleteContributor(model_id, contributor_id, token) {
+    const { fetch, agent } = await startProxy();
+    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(
+            {
+                userId: contributor_id,
+                role: 'model_contributor'
+            }
+        ),
+        timeout: 5000,
+        agent: agent
+    });
+    try {
+        const data = await response.json();
+        return { status: response.status, data: data };
+    } catch {
+        return { status: response.status, data: null };
+    }
+}
+
+module.exports = { listModels, createModel, getModel, updateModel, deleteModel, addContributor, deleteContributor };

@@ -9,7 +9,7 @@ function writeSummary(logger) {
 SUMMARY:
 Number of FAILED test cases: ${failedTestCount} / ${totalTestCount}
 ${failedTestCount > 0 ? `List of failed test cases:` : ''}
-\t${logData.match(/Failure. Test (.*) failed./g)?.map(line => line.replace('Failure. ', '').replace(' failed.', '')).join('\n\t\t') || ''}
+\t${logData.match(/Failure. Test (.*) failed./g)?.map(line => line.replace('Failure. ', '').replace(' failed.', '')).join('\n\t') || ''}
 `;
     fs.appendFileSync(logger.logFile, summary);
 }

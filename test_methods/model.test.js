@@ -1,7 +1,7 @@
 const logger = require('../helper_functions/logger');
 const { writeSummary } = require('../helper_functions/logsummary');
-const { listModels, createModel, getModel, updateModel } = require('../request_functions/model');
-const { setPublicModelID, setPrivateModelID, getUserToken, getPublicModelID, getPrivateModelID, getAdminToken } = require('../helper_functions/temp_storage');
+const { listModels, createModel, getModel, updateModel, deleteModel, addContributor, deleteContributor } = require('../request_functions/model');
+const { setPublicModelID, setPrivateModelID, getUserToken, getPublicModelID, getPrivateModelID, getAdminToken, getUserID } = require('../helper_functions/temp_storage');
 const infoConfig = require('../helper_functions/info_config');
 
 beforeAll(() => {
@@ -111,6 +111,62 @@ test('Test update private model API with admin token', async () => {
 
         logger.info('Success. Tested update private model API with admin token.')
     } catch (error) {
-        logger.error('Failure. Test update private model API with admin token.');
+        logger.error('Failure. Test update private model API with admin token failed.');
+    }
+});
+
+test('Test add contributor API to a private model using user token', async () => {
+    try {
+        const response = await addContributor(await getPrivateModelID(), await getUserID(), await getUserToken());
+        expect(response.status).toEqual(201);
+        expect(response.data).toBeNull();
+        logger.info('Success. Tested add contributor API to a private model using user token.')
+    } catch (error) {
+        logger.error('Failure. Test add contributor API to a private model using user token failed.');
+    }
+});
+
+test('Test add contributor API to a public model using user token', async () => {
+    try {
+        const response = await addContributor(await getPublicModelID(), await getUserID(), await getUserToken());
+        expect(response.status).toEqual(403);
+        expect(response.data.message).toStrictEqual("Forbidden");
+        logger.info('Success. Tested add contributor API to a public model using user token.')
+    } catch (error) {
+        logger.error('Failure. Test add contributor API to a public model using user token failed.');
+    }
+});
+
+test('Test delete contributor API using admin token', async () => {
+    try {
+        const response = await deleteContributor(await getPrivateModelID(), await getUserID(), await  getAdminToken());
+        expect(response.status).toEqual(204);
+        expect(response.data).toBeNull();
+        logger.info('Success. Tested delete contributor API using admin token.')
+    } catch (error) {
+        logger.error('Failure. Test delete contributor API using admin token failed.');
+    }
+});
+
+test('Test delete public model API using user token', async () => {
+    try {
+        const response = await deleteModel(await getPublicModelID(), await getUserToken());
+        expect(response.status).toEqual(403);
+        expect(response.data.message).toStrictEqual("Forbidden");
+        logger.info('Success. Tested delete public model API using user token.')
+    } catch (error) {
+        logger.error('Failure. Test delete public model API using user token failed.');
+    }
+});
+
+test('Test delete private model API using admin token', async () => {
+    try {
+        const response = await deleteModel(await getPrivateModelID(), await getUserToken()); 
+        // should be getAdminToken !!!!!!!!!!
+        expect(response.status).toEqual(204);
+        expect(response.data).toBeNull();
+        logger.info('Success. Tested delete private model API using admin token.')
+    } catch (error) {
+        logger.error('Failure. Test delete private model API using admin token failed.');
     }
 });
