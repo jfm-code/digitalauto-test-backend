@@ -6,6 +6,8 @@ const USER_TOKEN_FILE = path.join(__dirname, '../temp_files/user_token.txt');
 const USER_ID_FILE = path.join(__dirname, '../temp_files/user_id.txt');
 const PUBLIC_MODEL_ID_FILE = path.join(__dirname, '../temp_files/public_model_id.txt')
 const PRIVATE_MODEL_ID_FILE = path.join(__dirname, '../temp_files/private_model_id.txt')
+const PUBLIC_PROTOTYPE_ID_FILE = path.join(__dirname, '../temp_files/public_prototype_id.txt')
+const PRIVATE_PROTOTYPE_ID_FILE = path.join(__dirname, '../temp_files/private_prototype_id.txt')
 
 async function setAdminToken(token) {
     try {
@@ -107,10 +109,54 @@ async function getPrivateModelID() {
     }
 }
 
+async function setPublicPrototypeID(id) {
+    try {
+        await fs.writeFile(PUBLIC_PROTOTYPE_ID_FILE, id);
+        // console.log("Storing public prototype ID: ", id);
+    } catch (error) {
+        console.error("Error storing public prototype ID:", error);
+    }
+}
+
+async function getPublicPrototypeID() {
+    try {
+        const id = await fs.readFile(PUBLIC_PROTOTYPE_ID_FILE, 'utf8');
+        // console.log("Private public prototype ID is: ", id);
+        return id;
+    } catch (error) {
+        console.error("Error reading public prototype ID:", error);
+        return null;
+    }
+}
+
+async function setPrivatePrototypeID(id) {
+    try {
+        await fs.writeFile(PRIVATE_PROTOTYPE_ID_FILE, id);
+        // console.log("Storing private prototype ID: ", id);
+    } catch (error) {
+        console.error("Error storing private prototype ID:", error);
+    }
+}
+
+async function getPrivatePrototypeID() {
+    try {
+        const id = await fs.readFile(PRIVATE_PROTOTYPE_ID_FILE, 'utf8');
+        // console.log("Private private prototype ID is: ", id);
+        return id;
+    } catch (error) {
+        console.error("Error reading private prototype ID:", error);
+        return null;
+    }
+}
+
 module.exports = { 
     setAdminToken, getAdminToken, 
     setUserToken, getUserToken,
     setUserID, getUserID,
     setPublicModelID, getPublicModelID,
-    setPrivateModelID, getPrivateModelID
+    setPrivateModelID, getPrivateModelID,
+    setPublicPrototypeID, getPublicPrototypeID,
+    setPrivatePrototypeID, getPrivatePrototypeID
 };
+
+setPrivatePrototypeID("asfhkufhaiur");
