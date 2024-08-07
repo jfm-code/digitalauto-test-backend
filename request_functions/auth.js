@@ -1,5 +1,5 @@
 const { startProxy } = require('../helper_functions/proxy');
-const infoConfig = require('./info_config');
+const infoConfig = require('../helper_functions/info_config');
 
 async function login(email, password) {
     const { fetch, agent } = await startProxy();

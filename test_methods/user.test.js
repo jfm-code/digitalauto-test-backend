@@ -1,6 +1,6 @@
 const logger = require('../helper_functions/logger');
 const { writeSummary } = require('../helper_functions/logsummary');
-const { listUsers, getUser, deleteUser, updateUser, selfPromote, getSelf, updateSelf, createUser } = require('../helper_functions/user');
+const { listUsers, getUser, deleteUser, updateUser, selfPromote, getSelf, updateSelf, createUser } = require('../request_functions/user');
 const { getAdminToken, setUserID, getUserID, getUserToken } = require('../helper_functions/temp_storage');
 const infoConfig = require('../helper_functions/info_config');
 

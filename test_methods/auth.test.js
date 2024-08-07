@@ -1,6 +1,6 @@
 const logger = require('../helper_functions/logger');
 const { writeSummary } = require('../helper_functions/logsummary');
-const { login, forgotPassword, register } = require('../helper_functions/auth');
+const { login, forgotPassword, register } = require('../request_functions/auth');
 const { setAdminToken, setUserToken } = require('../helper_functions/temp_storage');
 const infoConfig = require('../helper_functions/info_config');
 
@@ -97,7 +97,7 @@ test('Test forgot password API using wrong user email', async () => {
 
 test('Test forgot password API using empty user email', async () => {
   try {
-    const response = await forgot_password("");
+    const response = await forgotPassword("");
 
     expect(response.status).toEqual(400);
     expect(response.data.message).toStrictEqual("\"email\" is not allowed to be empty");

@@ -5,7 +5,6 @@ logs/
 node_modules/
 
 # Ignore temp files
-admin_token.txt
-user_id.txt
-user_token.txt
+temp_files/
 info.json
+blabla.json
