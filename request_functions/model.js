@@ -100,10 +100,8 @@ async function deleteModel(id, token) {
     });
     try {
         const data = await response.json();
-        console.log('Response data:', data);
         return { status: response.status, data: data };
     } catch (error) {
-        console.log('Response status:', response.status);
         return { status: response.status, data: null };
     }
 }
