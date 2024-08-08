@@ -2,16 +2,21 @@ const { startProxy } = require('../helper-functions/proxy');
 const infoConfig = require('../helper-functions/info-config');
 
 async function listModels() {
-    const { fetch, agent } = await startProxy();
-    const params = 'name,created_by,tenant_id,visibility';
-    const response = await fetch(`${infoConfig["list_model_url"]}${params}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const params = 'name,created_by,tenant_id,visibility';
+    const response = await fetch(`${infoConfig["list_model_url"]}${params}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -21,8 +26,11 @@ async function listModels() {
 }
 
 async function createModel(token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(infoConfig["model_url"], {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,9 +43,11 @@ async function createModel(token) {
                 name: infoConfig["test_model_name"]
             }
         ),
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(infoConfig["model_url"], fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -47,16 +57,21 @@ async function createModel(token) {
 }
 
 async function getModel(id, token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["model_url"]}${id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["model_url"]}${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -66,17 +81,22 @@ async function getModel(id, token) {
 }
 
 async function updateModel(id, token, name) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["model_url"]}${id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ name: name }),
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["model_url"]}${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -86,16 +106,21 @@ async function updateModel(id, token, name) {
 }
 
 async function deleteModel(id, token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["model_url"]}${id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["model_url"]}${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -105,8 +130,11 @@ async function deleteModel(id, token) {
 }
 
 async function addContributor(model_id, contributor_id, token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -118,9 +146,11 @@ async function addContributor(model_id, contributor_id, token) {
                 role: 'model_contributor'
             }
         ),
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -130,8 +160,11 @@ async function addContributor(model_id, contributor_id, token) {
 }
 
 async function deleteContributor(model_id, contributor_id, token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -143,9 +176,11 @@ async function deleteContributor(model_id, contributor_id, token) {
                 role: 'model_contributor'
             }
         ),
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };

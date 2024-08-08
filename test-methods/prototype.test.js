@@ -1,7 +1,7 @@
 const logger = require('../helper-functions/logger');
 const { writeSummary } = require('../helper-functions/log-summarizer');
 const { createModel, deleteModel } = require('../request-functions/model');
-const { createPrototype, deletePrototype } = require('../request-functions/prototype');
+const { createPrototype, deletePrototype, listPrototype, getPrototype, updatePrototype } = require('../request-functions/prototype');
 const infoConfig = require('../helper-functions/info-config');
 const { setPrivateModelID, setPublicModelID, getPrivateModelID, setPrivatePrototypeID, getAdminToken, getPublicModelID, setPublicPrototypeID, getPrivatePrototypeID, getUserToken, getPublicPrototypeID } = require('../helper-functions/temp-storage');
 
@@ -45,6 +45,78 @@ test('Test create prototype API', async () => {
         logger.error(`Failure. Test create prototype API failed. Status: ${response === null ? 'could not send request' : response.status}`);
     }
 }, 10000);
+
+test('Test list prototype API', async () => {
+    let response = null;
+    try {
+        response = await listPrototype();
+        expect(response.status).toEqual(200);
+        expect(response.data.totalResults).toBeGreaterThan(0);
+        logger.info('Success. Tested list prototype API')
+    } catch {
+        logger.error(`Failure. Test list prototype API failed. Status: ${response === null ? 'could not send request' : response.status}`);
+    }
+});
+
+test('Test get prototype API - user get admin prototype', async () => {
+    let response = null;
+    try {
+        response = await getPrototype(await getUserToken(), await getPublicPrototypeID());
+        expect(response.status).toEqual(403);
+        expect(response.data.message).toStrictEqual("Forbidden");
+        logger.info('Success. Tested get prototype API - user get admin prototype.')
+    } catch {
+        logger.error(`Failure. Test get prototype API - user get admin prototype failed. Status: ${response === null ? 'could not send request' : response.status}`);
+    }
+});
+
+test('Test get prototype API - admin get user prototype', async () => {
+    let response = null;
+    try {
+        response = await getPrototype(await getAdminToken(), await getPrivatePrototypeID());
+        expect(response.status).toEqual(200);
+        expect(response.data).toBeDefined();
+        logger.info('Success. Tested get prototype API - admin get user prototype.')
+    } catch {
+        logger.error(`Failure. Test get prototype API - admin get user prototype failed. Status: ${response === null ? 'could not send request' : response.status}`);
+    }
+});
+
+test('Test get prototype API - wrong prototype ID', async () => {
+    let response = null;
+    try {
+        response = await getPrototype(await getAdminToken(), infoConfig["random_prototype_id"]);
+        expect(response.status).toEqual(404);
+        expect(response.data.message).toStrictEqual("Prototype not found");
+        logger.info('Success. Tested get prototype API - wrong prototype ID.')
+    } catch {
+        logger.error(`Failure. Test get prototype API - wrong prototype ID failed. Status: ${response === null ? 'could not send request' : response.status}`);
+    }
+});
+
+test('Test update prototype API', async () => {
+    let response = null;
+    try {
+        response = await updatePrototype(await getUserToken(), await getPrivatePrototypeID(), infoConfig["test_prototype_name"]);
+        expect(response.status).toEqual(200);
+        expect(response.data).toBeDefined();
+        logger.info('Success. Tested update prototype API.')
+    } catch {
+        logger.error(`Failure. Test update prototype API failed. Status: ${response === null ? 'could not send request' : response.status}`);
+    }
+});
+
+test('Test update prototype API with empty field', async () => {
+    let response = null;
+    try {
+        response = await updatePrototype(await getAdminToken(), await getPublicPrototypeID(), "");
+        expect(response.status).toEqual(400);
+        expect(response.data.message).toStrictEqual('"name" is not allowed to be empty');
+        logger.info('Success. Tested update prototype API with empty field.')
+    } catch {
+        logger.error(`Failure. Test update prototype API with empty field failed. Status: ${response === null ? 'could not send request' : response.status}`);
+    }
+});
 
 test('Test delete prototype API', async () => {
     let response = null;

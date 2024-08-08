@@ -2,8 +2,11 @@ const { startProxy } = require('../helper-functions/proxy');
 const infoConfig = require('../helper-functions/info-config');
 
 async function login(email, password) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(infoConfig["login_url"], {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -14,9 +17,11 @@ async function login(email, password) {
                 password: password
             }
         ),
-        timeout: 5000,
-        agent: agent
-    });
+        timeout: 5000
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(infoConfig["login_url"], fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -26,16 +31,21 @@ async function login(email, password) {
 }
 
 async function forgotPassword(email) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(infoConfig["forgot_pwd_url"], {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email}),
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(infoConfig["forgot_pwd_url"], fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -45,8 +55,11 @@ async function forgotPassword(email) {
 }
 
 async function register(email, password, name) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(infoConfig["register_url"], {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -59,8 +72,10 @@ async function register(email, password, name) {
             }
         ),
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(infoConfig["register_url"], fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };

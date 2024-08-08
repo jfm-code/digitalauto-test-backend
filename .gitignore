@@ -7,4 +7,4 @@ node_modules/
 # Ignore temp files
 temp_files/
 info.json
-blabla.json
+blabla.txt

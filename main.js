@@ -18,7 +18,6 @@ function runTests(testFile) {
 
 async function main() {
   const testFiles = ['auth.test.js', 'model.test.js', 'prototype.test.js', 'user.test.js', 'email.test.js'];
-  
   for (const testFile of testFiles) {
     try {
       await runTests(testFile);
