@@ -56,16 +56,21 @@ async function listPrototype() {
 }
 
 async function getPrototype(token, prototype_id) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["prototype_url"]}${prototype_id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["prototype_url"]}${prototype_id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -75,8 +80,11 @@ async function getPrototype(token, prototype_id) {
 }
 
 async function updatePrototype(token, prototype_id, name) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["prototype_url"]}${prototype_id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -84,8 +92,10 @@ async function updatePrototype(token, prototype_id, name) {
         },
         body: JSON.stringify({ name: name }),
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["prototype_url"]}${prototype_id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -95,16 +105,21 @@ async function updatePrototype(token, prototype_id, name) {
 }
 
 async function deletePrototype(id, token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["prototype_url"]}${id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["prototype_url"]}${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };

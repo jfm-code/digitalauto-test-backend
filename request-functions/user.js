@@ -2,15 +2,20 @@ const { startProxy } = require('../helper-functions/proxy');
 const infoConfig = require('../helper-functions/info-config');
 
 async function listUsers(page_number) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["list_user_url"]}${page_number}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["list_user_url"]}${page_number}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -20,15 +25,20 @@ async function listUsers(page_number) {
 }
 
 async function getUser(id) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["user_url"]}${id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["user_url"]}${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -38,8 +48,11 @@ async function getUser(id) {
 }
 
 async function createUser(email, password, name, token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(infoConfig["user_url"], {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -53,8 +66,10 @@ async function createUser(email, password, name, token) {
             }
         ),
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(infoConfig["user_url"], fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -64,8 +79,11 @@ async function createUser(email, password, name, token) {
 }
 
 async function updateUser(new_password, token, id) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["user_url"]}${id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;    
+    
+    const fetchOptions = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -73,8 +91,10 @@ async function updateUser(new_password, token, id) {
         },
         body: JSON.stringify({password: new_password,}),
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["user_url"]}${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -84,16 +104,21 @@ async function updateUser(new_password, token, id) {
 }
 
 async function deleteUser(token, id) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["user_url"]}${id}`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(`${infoConfig["user_url"]}${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -103,16 +128,21 @@ async function deleteUser(token, id) {
 }
 
 async function selfPromote(token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(`${infoConfig["self_url"]}/promote`, {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+    
+    const response = await fetch(`${infoConfig["self_url"]}/promote`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -122,16 +152,21 @@ async function selfPromote(token) {
 }
 
 async function getSelf(token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(infoConfig["self_url"], {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(infoConfig["self_url"], fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -141,8 +176,11 @@ async function getSelf(token) {
 }
 
 async function updateSelf(new_password, token) {
-    const { fetch, agent } = await startProxy();
-    const response = await fetch(infoConfig["self_url"], {
+    const proxyConfig = await startProxy();
+    const fetch = proxyConfig.fetch;
+    const agent = proxyConfig.agent;
+
+    const fetchOptions = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -150,8 +188,10 @@ async function updateSelf(new_password, token) {
         },
         body: JSON.stringify({password: new_password,}),
         timeout: 5000,
-        agent: agent
-    });
+    };
+    if (agent) { fetchOptions.agent = agent; }
+
+    const response = await fetch(infoConfig["self_url"], fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
