@@ -1,89 +1,87 @@
-const { startProxy } = require('../helper_functions/proxy');
-const infoConfig = require('../helper_functions/info_config');
+const { startProxy } = require('../helper-functions/proxy');
+const infoConfig = require('../helper-functions/info-config');
 
 async function listModels() {
     const { fetch, agent } = await startProxy();
+    const params = 'name,created_by,tenant_id,visibility';
+    const response = await fetch(`${infoConfig["list_model_url"]}${params}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        timeout: 5000,
+        agent: agent
+    });
     try {
-        const params = 'name,created_by,tenant_id,visibility';
-        const response = await fetch(`${infoConfig["list_model_url"]}${params}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            timeout: 5000,
-            agent: agent
-        });
         const data = await response.json();
-        // console.log('Response status:', response.status);
-        // console.log('Response data:', data);
         return { status: response.status, data: data };
     } catch (error) {
-        console.error('Error:', error);
+        return { status: response.status, data: null };
     }
 }
 
 async function createModel(token) {
     const { fetch, agent } = await startProxy();
+    const response = await fetch(infoConfig["model_url"], {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(
+            {
+                cvi: '{}',
+                main_api: 'Testing',
+                name: infoConfig["test_model_name"]
+            }
+        ),
+        timeout: 5000,
+        agent: agent
+    });
     try {
-        const response = await fetch(infoConfig["model_url"], {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(
-                {
-                    cvi: '{}',
-                    main_api: 'Testing',
-                    name: infoConfig["test_model_name"]
-                }
-            ),
-            timeout: 5000,
-            agent: agent
-        });
         const data = await response.json();
         return { status: response.status, data: data };
     } catch (error) {
-        console.error('Error:', error);
+        return { status: response.status, data: null };
     }
 }
 
 async function getModel(id, token) {
     const { fetch, agent } = await startProxy();
+    const response = await fetch(`${infoConfig["model_url"]}${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        timeout: 5000,
+        agent: agent
+    });
     try {
-        const response = await fetch(`${infoConfig["model_url"]}${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            timeout: 5000,
-            agent: agent
-        });
-        const data = await response.json();;
+        const data = await response.json();
         return { status: response.status, data: data };
     } catch (error) {
-        console.error('Error:', error);
+        return { status: response.status, data: null };
     }
 }
 
 async function updateModel(id, token, name) {
     const { fetch, agent } = await startProxy();
+    const response = await fetch(`${infoConfig["model_url"]}${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ name: name }),
+        timeout: 5000,
+        agent: agent
+    });
     try {
-        const response = await fetch(`${infoConfig["model_url"]}${id}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ name: name }),
-            timeout: 5000,
-            agent: agent
-        });
         const data = await response.json();
         return { status: response.status, data: data };
     } catch (error) {
-        console.error('Error:', error);
+        return { status: response.status, data: null };
     }
 }
 

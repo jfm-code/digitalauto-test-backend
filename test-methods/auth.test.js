@@ -1,8 +1,8 @@
-const logger = require('../helper_functions/logger');
-const { writeSummary } = require('../helper_functions/logsummary');
-const { login, forgotPassword, register } = require('../request_functions/auth');
-const { setAdminToken, setUserToken } = require('../helper_functions/temp_storage');
-const infoConfig = require('../helper_functions/info_config');
+const logger = require('../helper-functions/logger');
+const { writeSummary } = require('../helper-functions/log-summarizer');
+const { login, forgotPassword, register } = require('../request-functions/auth');
+const { setAdminToken, setUserToken } = require('../helper-functions/temp-storage');
+const infoConfig = require('../helper-functions/info-config');
 
 beforeAll(() => {
   logger.startEnd('Start testing backend-core/v2/auth methods');
@@ -14,8 +14,9 @@ afterAll(() => {
 });
 
 test('Test login API using correct user information', async () => {
+  let response = null;
   try {
-    const response = await login(
+    response = await login(
       infoConfig["login_user_info"]["email"], 
       infoConfig["login_user_info"]["password"]
     );
@@ -34,13 +35,14 @@ test('Test login API using correct user information', async () => {
 
     logger.info('Success. Tested login API with correct user information.')
   } catch (error) {
-    logger.error('Failure. Test login API with correct user information failed.');
+    logger.error(`Failure. Test login API with correct user information failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });
 
 test('Test login API using wrong user information', async () => {
+  let response = null;
   try {
-    const response = await login(
+      response = await login(
       infoConfig["login_user_info"]["email"] + ".vn",
       infoConfig["login_user_info"]["password"]
     );
@@ -52,65 +54,70 @@ test('Test login API using wrong user information', async () => {
     
     logger.info('Success. Tested login API with wrong user information.')
   } catch (error) {
-    logger.error('Failure. Test login API with wrong user information failed.');
+    logger.error(`Failure. Test login API with wrong user information failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });
 
 test('Test login API using empty user information', async () => {
+  let response = null;
   try {
-    const response = await login("", "");
+    response = await login("", "");
 
     expect(response.status).toEqual(400);
     expect(response.data.message).toStrictEqual("\"email\" is not allowed to be empty, \"password\" is not allowed to be empty");
     
     logger.info('Success. Tested login API with empty user information.')
   } catch (error) {
-    logger.error('Failure. Test login API with empty user information failed.');
+    logger.error(`Failure. Test login API with empty user information failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });
 
 test('Test forgot password API using correct user email', async () => {
+  let response = null;
   try {
-    const response = await forgotPassword("dev@gmail.com");
+    response = await forgotPassword("dev@gmail.com");
 
     expect(response.status).toEqual(204);
     expect(response.data).toBeNull();
 
     logger.info('Success. Tested forgot password API using correct user email.')
   } catch (error) {
-    logger.error('Failure. Test forgot password API using correct user email failed.');
+    logger.error(`Failure. Test forgot password API using correct user email failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });
 
 test('Test forgot password API using wrong user email', async () => {
+  let response = null;
   try {
-    const response = await forgotPassword("random@gmail.com");
+    response = await forgotPassword("random@gmail.com");
 
     expect(response.status).toEqual(404);
     expect(response.data.message).toStrictEqual("No users found with this email");
 
     logger.info('Success. Tested forgot password API using wrong user email.')
   } catch (error) {
-    logger.error('Failure. Test forgot password API using wrong user email failed.');
+    logger.error(`Failure. Test forgot password API using wrong user email failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });
 
 test('Test forgot password API using empty user email', async () => {
+  let response = null;
   try {
-    const response = await forgotPassword("");
+    response = await forgotPassword("");
 
     expect(response.status).toEqual(400);
     expect(response.data.message).toStrictEqual("\"email\" is not allowed to be empty");
 
     logger.info('Success. Tested forgot password API using empty user email.')
   } catch (error) {
-    logger.error('Failure. Test forgot password API using empty user email failed.');
+    logger.error(`Failure. Test forgot password API using empty user email failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });
 
 test('Test register API using existing email', async () => {
+  let response = null;
   try {
-    const response = await register(
+      response = await register(
       infoConfig["login_user_info"]["email"],
       infoConfig["register_user_info"]["password"],
       infoConfig["register_user_info"]["name"]);
@@ -120,13 +127,14 @@ test('Test register API using existing email', async () => {
   
       logger.info('Success. Tested register API using existing email.')
     } catch (error) {
-      logger.error('Failure. Test register API using existing email failed.');
+      logger.error(`Failure. Test register API using existing email failed. Status: ${response === null ? 'could not send request' : response.status}`);
     }
 });
 
 test('Test register API using empty or invalid input', async () => {
+  let response = null;
   try {
-    const response = await register(
+    response = await register(
     infoConfig["register_user_info"]["email"].slice(0, 15),
     infoConfig["register_user_info"]["password"].slice(0, 4), "");
 
@@ -135,13 +143,14 @@ test('Test register API using empty or invalid input', async () => {
 
     logger.info('Success. Tested register API using empty or invalid input.')
   } catch (error) {
-    logger.error('Failure. Test register API using empty or invalid input failed.');
+    logger.error(`Failure. Test register API using empty or invalid input failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });
 
 test('Test register API using correct input', async () => {
+  let response = null;
   try {
-    const response = await register(
+    response = await register(
       infoConfig["register_user_info"]["email"],
       infoConfig["register_user_info"]["password"],
       infoConfig["register_user_info"]["name"]
@@ -154,6 +163,6 @@ test('Test register API using correct input', async () => {
 
     logger.info('Success. Tested register API using correct input.')
   } catch (error) {
-    logger.error('Failure. Test register API using correct input failed.');
+    logger.error(`Failure. Test register API using correct input failed. Status: ${response === null ? 'could not send request' : response.status}`);
   }
 });

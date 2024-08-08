@@ -1,9 +1,9 @@
-const logger = require('../helper_functions/logger');
-const { writeSummary } = require('../helper_functions/logsummary');
-const { createModel, deleteModel } = require('../request_functions/model');
-const { createPrototype, deletePrototype } = require('../request_functions/prototype');
-const infoConfig = require('../helper_functions/info_config');
-const { setPrivateModelID, setPublicModelID, getPrivateModelID, setPrivatePrototypeID, getAdminToken, getPublicModelID, setPublicPrototypeID, getPrivatePrototypeID, getUserToken, getPublicPrototypeID } = require('../helper_functions/temp_storage');
+const logger = require('../helper-functions/logger');
+const { writeSummary } = require('../helper-functions/log-summarizer');
+const { createModel, deleteModel } = require('../request-functions/model');
+const { createPrototype, deletePrototype } = require('../request-functions/prototype');
+const infoConfig = require('../helper-functions/info-config');
+const { setPrivateModelID, setPublicModelID, getPrivateModelID, setPrivatePrototypeID, getAdminToken, getPublicModelID, setPublicPrototypeID, getPrivatePrototypeID, getUserToken, getPublicPrototypeID } = require('../helper-functions/temp-storage');
 
 beforeAll(() => {
     logger.startEnd('Start testing backend-core/v2/prototype methods');
@@ -15,9 +15,10 @@ afterAll(() => {
 });
 
 test('Test create prototype API', async () => {
+    let response = null;
     try {
         // Create user's model and admin's model
-        let response = await createModel(await getUserToken());
+        response = await createModel(await getUserToken());
         await setPrivateModelID(response.data);
         response = await createModel(await getAdminToken());
         await setPublicModelID(response.data);
@@ -40,15 +41,16 @@ test('Test create prototype API', async () => {
         await setPublicPrototypeID(response.data.id);
 
         logger.info('Success. Tested create prototype API')
-    } catch (error) {
-        logger.error('Failure. Test create prototype API failed.');
+    } catch {
+        logger.error(`Failure. Test create prototype API failed. Status: ${response === null ? 'could not send request' : response.status}`);
     }
 }, 10000);
 
 test('Test delete prototype API', async () => {
+    let response = null;
     try {
         // Delete user's prototype and admin's prototype
-        let response = await deletePrototype(await getPrivatePrototypeID(), await getUserToken());
+        response = await deletePrototype(await getPrivatePrototypeID(), await getUserToken());
         expect(response.status).toEqual(204);
         expect(response.data).toBeNull();
 
@@ -62,6 +64,6 @@ test('Test delete prototype API', async () => {
 
         logger.info('Success. Tested delete prototype API.');
     } catch (error) {
-        logger.error('Failure. Test delete prototype API failed.');
+        logger.error(`Failure. Test delete prototype API failed. Status: ${response === null ? 'could not send request' : response.status}`);
     }
 }, 10000);

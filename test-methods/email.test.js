@@ -1,7 +1,7 @@
-const logger = require('../helper_functions/logger');
-const { writeSummary } = require('../helper_functions/logsummary');
-const { sendEmail } = require('../request_functions/email');
-const infoConfig = require('../helper_functions/info_config');
+const logger = require('../helper-functions/logger');
+const { writeSummary } = require('../helper-functions/log-summarizer');
+const { sendEmail } = require('../request-functions/email');
+const infoConfig = require('../helper-functions/info-config');
 
 beforeAll(() => {
   logger.startEnd('Start testing backend-core/v2/emails methods');
@@ -13,8 +13,9 @@ afterAll(() => {
 });
 
 test('Test send email API', async () => {
+  let response = null;
     try {
-        const response = await sendEmail(
+        response = await sendEmail(
             infoConfig["login_user_info"]["email"],
             infoConfig["email_content"],
             infoConfig["email_content"]
@@ -26,6 +27,6 @@ test('Test send email API', async () => {
         expect(response.data).toBeNull();
         logger.info('Success. Tested send email API.')
     } catch (error) {
-        logger.error('Failure. Test send email API failed.');
+        logger.error(`Failure. Test send email API failed. Status: ${response === null ? 'could not send request' : response.status}`);
     }
 });

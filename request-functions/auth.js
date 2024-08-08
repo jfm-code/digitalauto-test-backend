@@ -1,0 +1,72 @@
+const { startProxy } = require('../helper-functions/proxy');
+const infoConfig = require('../helper-functions/info-config');
+
+async function login(email, password) {
+    const { fetch, agent } = await startProxy();
+    const response = await fetch(infoConfig["login_url"], {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+            {
+                email: email,
+                password: password
+            }
+        ),
+        timeout: 5000,
+        agent: agent
+    });
+    try {
+        const data = await response.json();
+        return { status: response.status, data: data };
+    } catch {
+        return { status: response.status, data: null };
+    }
+}
+
+async function forgotPassword(email) {
+    const { fetch, agent } = await startProxy();
+    const response = await fetch(infoConfig["forgot_pwd_url"], {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email}),
+        timeout: 5000,
+        agent: agent
+    });
+    try {
+        const data = await response.json();
+        return { status: response.status, data: data };
+    } catch {
+        return { status: response.status, data: null };
+    }
+}
+
+async function register(email, password, name) {
+    const { fetch, agent } = await startProxy();
+    const response = await fetch(infoConfig["register_url"], {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+            {
+                email: email,
+                password: password,
+                name: name
+            }
+        ),
+        timeout: 5000,
+        agent: agent
+    });
+    try {
+        const data = await response.json();
+        return { status: response.status, data: data };
+    } catch {
+        return { status: response.status, data: null };
+    }
+}
+
+module.exports = { login, forgotPassword, register };
