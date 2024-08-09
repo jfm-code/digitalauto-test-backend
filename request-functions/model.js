@@ -1,5 +1,5 @@
 const { startProxy } = require('../helper-functions/proxy');
-const infoConfig = require('../helper-functions/info-config');
+const infoConfig = require('../info');
 
 async function listModels() {
     const proxyConfig = await startProxy();
@@ -16,7 +16,7 @@ async function listModels() {
     if (agent) { fetchOptions.agent = agent; }
 
     const params = 'name,created_by,tenant_id,visibility';
-    const response = await fetch(`${infoConfig["list_model_url"]}${params}`, fetchOptions);
+    const response = await fetch(`${infoConfig["model_url"]}?fields=${params}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -71,7 +71,7 @@ async function getModel(id, token) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["model_url"]}${id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["model_url"]}/${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -96,7 +96,7 @@ async function updateModel(id, token, name) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["model_url"]}${id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["model_url"]}/${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -120,7 +120,7 @@ async function deleteModel(id, token) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["model_url"]}${id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["model_url"]}/${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -150,7 +150,7 @@ async function addContributor(model_id, contributor_id, token) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, fetchOptions);
+    const response = await fetch(`${infoConfig["model_url"]}/${model_id}/permissions`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -180,7 +180,7 @@ async function deleteContributor(model_id, contributor_id, token) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["model_url"]}${model_id}/permissions`, fetchOptions);
+    const response = await fetch(`${infoConfig["model_url"]}/${model_id}/permissions`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };

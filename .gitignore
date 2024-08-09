@@ -1,10 +1,4 @@
-# Ignore log files and directories
-logs/
-
-# Ignore node_modules
+logs/*
 node_modules/
-
-# Ignore temp files
-temp_files/
-info.json
-blabla.txt
+temp-files/*
+.env

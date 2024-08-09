@@ -1,13 +1,14 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const ADMIN_TOKEN_FILE = path.join(__dirname, '../temp-files/admin-token.txt');
-const USER_TOKEN_FILE = path.join(__dirname, '../temp-files/user-token.txt');
-const USER_ID_FILE = path.join(__dirname, '../temp-files/user-id.txt');
-const PUBLIC_MODEL_ID_FILE = path.join(__dirname, '../temp-files/public-model-id.txt')
-const PRIVATE_MODEL_ID_FILE = path.join(__dirname, '../temp-files/private-model-id.txt')
-const PUBLIC_PROTOTYPE_ID_FILE = path.join(__dirname, '../temp-files/public-prototype-id.txt')
-const PRIVATE_PROTOTYPE_ID_FILE = path.join(__dirname, '../temp-files/private-prototype-id.txt')
+const TEMP_FILES_DIR = path.join(__dirname, '../temp-files');
+const ADMIN_TOKEN_FILE = path.join(TEMP_FILES_DIR, 'admin-token.txt');
+const USER_TOKEN_FILE = path.join(TEMP_FILES_DIR, 'user-token.txt');
+const USER_ID_FILE = path.join(TEMP_FILES_DIR, 'user-id.txt');
+const PUBLIC_MODEL_ID_FILE = path.join(TEMP_FILES_DIR, 'public-model-id.txt')
+const PRIVATE_MODEL_ID_FILE = path.join(TEMP_FILES_DIR, 'private-model-id.txt')
+const PUBLIC_PROTOTYPE_ID_FILE = path.join(TEMP_FILES_DIR, 'public-prototype-id.txt')
+const PRIVATE_PROTOTYPE_ID_FILE = path.join(TEMP_FILES_DIR, 'private-prototype-id.txt')
 
 async function setAdminToken(token) {
     try {

@@ -1,5 +1,5 @@
 const { startProxy } = require('../helper-functions/proxy');
-const infoConfig = require('../helper-functions/info-config');
+const infoConfig = require('../info');
 
 async function listUsers(page_number) {
     const proxyConfig = await startProxy();
@@ -15,7 +15,7 @@ async function listUsers(page_number) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["list_user_url"]}${page_number}`, fetchOptions);
+    const response = await fetch(`${infoConfig["user_url"]}?page=${page_number}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -38,7 +38,7 @@ async function getUser(id) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["user_url"]}${id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["user_url"]}/${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -94,7 +94,7 @@ async function updateUser(new_password, token, id) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["user_url"]}${id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["user_url"]}/${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -118,7 +118,7 @@ async function deleteUser(token, id) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["user_url"]}${id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["user_url"]}/${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };

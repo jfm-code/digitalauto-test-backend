@@ -2,7 +2,7 @@ const logger = require('../helper-functions/logger');
 const { writeSummary } = require('../helper-functions/log-summarizer');
 const { listModels, createModel, getModel, updateModel, deleteModel, addContributor, deleteContributor } = require('../request-functions/model');
 const { setPublicModelID, setPrivateModelID, getUserToken, getPublicModelID, getPrivateModelID, getAdminToken, getUserID } = require('../helper-functions/temp-storage');
-const infoConfig = require('../helper-functions/info-config');
+const infoConfig = require('../info');
 
 beforeAll(() => {
     logger.startEnd('Start testing backend-core/v2/model methods');

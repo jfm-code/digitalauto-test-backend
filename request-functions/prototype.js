@@ -1,5 +1,5 @@
 const { startProxy } = require('../helper-functions/proxy');
-const infoConfig = require('../helper-functions/info-config');
+const infoConfig = require('../info');
 
 async function createPrototype(token, model_id, name) {
     const proxyConfig = await startProxy();
@@ -46,7 +46,7 @@ async function listPrototype() {
     if (agent) { fetchOptions.agent = agent; }
 
     const params = 'name,model_id,created_by,id';
-    const response = await fetch(`${infoConfig["list_prototype_url"]}${params}`, fetchOptions);
+    const response = await fetch(`${infoConfig["prototype_url"]}?fields=${params}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -70,7 +70,7 @@ async function getPrototype(token, prototype_id) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["prototype_url"]}${prototype_id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["prototype_url"]}/${prototype_id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -95,7 +95,7 @@ async function updatePrototype(token, prototype_id, name) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["prototype_url"]}${prototype_id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["prototype_url"]}/${prototype_id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };
@@ -119,7 +119,7 @@ async function deletePrototype(id, token) {
     };
     if (agent) { fetchOptions.agent = agent; }
 
-    const response = await fetch(`${infoConfig["prototype_url"]}${id}`, fetchOptions);
+    const response = await fetch(`${infoConfig["prototype_url"]}/${id}`, fetchOptions);
     try {
         const data = await response.json();
         return { status: response.status, data: data };

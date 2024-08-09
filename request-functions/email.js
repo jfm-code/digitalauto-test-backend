@@ -1,5 +1,5 @@
 const { startProxy } = require('../helper-functions/proxy');
-const infoConfig = require('../helper-functions/info-config');
+const infoConfig = require('../info');
 
 async function sendEmail(receiver, subject, content) {
     const proxyConfig = await startProxy();

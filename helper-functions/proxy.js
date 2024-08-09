@@ -1,5 +1,5 @@
 const { exec } = require('child_process');
-const infoConfig = require('./info-config');
+const infoConfig = require('../info');
 
 const checkIfCompanyNetwork = () => {
   return new Promise((resolve, reject) => {
@@ -9,7 +9,7 @@ const checkIfCompanyNetwork = () => {
         reject(error);
         return;
       }
-      const isCompanyNetwork = stdout.includes('bosch.com');
+      const isCompanyNetwork = stdout.includes(infoConfig["company_domain"]);
     //   console.log(stdout);
       resolve(isCompanyNetwork);
     });
@@ -35,5 +35,5 @@ async function startProxy() {
     return { fetch };
   }
 }
-startProxy();
+
 module.exports = { startProxy };

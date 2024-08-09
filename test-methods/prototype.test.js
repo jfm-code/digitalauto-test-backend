@@ -2,7 +2,7 @@ const logger = require('../helper-functions/logger');
 const { writeSummary } = require('../helper-functions/log-summarizer');
 const { createModel, deleteModel } = require('../request-functions/model');
 const { createPrototype, deletePrototype, listPrototype, getPrototype, updatePrototype } = require('../request-functions/prototype');
-const infoConfig = require('../helper-functions/info-config');
+const infoConfig = require('../info');
 const { setPrivateModelID, setPublicModelID, getPrivateModelID, setPrivatePrototypeID, getAdminToken, getPublicModelID, setPublicPrototypeID, getPrivatePrototypeID, getUserToken, getPublicPrototypeID } = require('../helper-functions/temp-storage');
 
 beforeAll(() => {
