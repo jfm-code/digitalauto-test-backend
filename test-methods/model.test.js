@@ -173,12 +173,12 @@ test('Test delete public model API using user token', async () => {
 test('Test delete private model API using admin token', async () => {
     let response = null;
     try {
-        response = await deleteModel(await getPrivateModelID(), await getUserToken()); 
-        // should be getAdminToken !!!!!!!!!!
+        response = await deleteModel(await getPrivateModelID(), await getAdminToken()); 
         expect(response.status).toEqual(204);
         expect(response.data).toBeNull();
         logger.info('Success. Tested delete private model API using admin token.')
     } catch (error) {
+        await deleteModel(await getPrivateModelID(), await getUserToken());  // Ensure that the testing model will be deleted
         logger.error(`Failure. Test delete private model API using admin token failed. Status: ${response === null ? 'could not send request' : response.status}`);
     }
 });
